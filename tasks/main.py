@@ -39,15 +39,15 @@ class world:
         positions_y = tuple()
         for coord in range(max(self.__maxX + 1,self.__maxY + 1)):
             if coord - 1 >= 0:
-                init += (('smaller', coord - 1,coord),)
+                init += (('smaller', coord - 1, coord),)
             if coord <= self.__maxX:
-                positions_x += ((coord),)
+                positions_x += (coord,)
             if coord <= self.__maxY:
-                positions_y += ((coord),)
+                positions_y += (coord,)
 
         for position, value in self.__map.items():
             if value != '#':
-                init += (('at',value, position[0], position[1]),)
+                init += (('at', value, position[0], position[1]),)
                 if value != 'W':
                     init += (('at', 'free', position[0], position[1]),)
 
