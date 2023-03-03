@@ -264,6 +264,7 @@ class State(object):
         Apply the action to this state to produce a new state.
         If monotone, ignore the delete list (for A* heuristic)
         """
+        # print('apply ', action)
         new_preds = set(self.predicates)
         new_preds |= set(action.add_effects)
         if not monotone:

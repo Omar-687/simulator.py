@@ -90,8 +90,8 @@ class world:
         # goal1 = (('at', 'hunter', self.__startX , self.__startY),
         #     ('=', ('bows',), 1),)
 
-        goal1 = (('at', '@', self.__startX , self.__startY),
-             ('=', ('gold',), 3),)
+        goal1 = (
+             ('=', ('gold',), 4),)
 
         # goal = (
         #         ('=',('bows',), 0),
