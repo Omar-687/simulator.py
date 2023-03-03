@@ -37,25 +37,25 @@ class world:
         goal = tuple()
         positions_x = tuple()
         positions_y = tuple()
-        for i in range(max(self.__maxX + 1,self.__maxY + 1)):
-            if i-1 >= 0:
-                init += (('smaller', i-1,i),)
-            if i <= self.__maxX:
-                positions_x += ((i),)
-            if i <= self.__maxY:
-                positions_y += ((i),)
+        for coord in range(max(self.__maxX + 1,self.__maxY + 1)):
+            if coord - 1 >= 0:
+                init += (('smaller', coord - 1,coord),)
+            if coord <= self.__maxX:
+                positions_x += ((coord),)
+            if coord <= self.__maxY:
+                positions_y += ((coord),)
 
-        for position,value in self.__map.items():
+        for position, value in self.__map.items():
             if value != '#':
-                init += (('at',value,position[0],position[1]),)
+                init += (('at',value, position[0], position[1]),)
                 if value != 'W':
                     init += (('at', 'free', position[0], position[1]),)
 
-        init += (('=',('gold',),0),)
-        init += (('=',('arrows',),0),)
+        init += (('=', ('gold',), 0),)
+        init += (('=', ('arrows',), 0),)
 
-        goal += (('at','@',self.__startX,self.__startY),)
-        goal += (('=',('gold',),self.__totalGold),)
+        goal += (('at', '@', self.__startX, self.__startY),)
+        goal += (('=', ('gold',), self.__totalGold),)
         domain = pyddl.Domain(
             (pyddl.Action('move-left',
                    parameters=(
@@ -243,8 +243,8 @@ if __name__ == '__main__':
     else:
         actions = [action.name for action in plan]
         print(", ".join(actions))
-        f = open(sys.argv[1] + "solution", "w")
+        f = open(sys.argv[1] + ".solution", "w")
         f.write("\n".join(actions))
         f.close()
         input()
-        simulator.simulate(sys.argv[1], sys.argv[1] + ".txt")
+        simulator.simulate(sys.argv[1], sys.argv[1] + ".solution")
