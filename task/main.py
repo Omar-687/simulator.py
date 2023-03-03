@@ -33,7 +33,7 @@ class world:
             y+=1
 
     def getProblem(self):
-        init = list()
+
         goal = list()
 
         positions = list()
@@ -41,19 +41,25 @@ class world:
         monsters = tuple()
         frees = tuple()
         obstacles = tuple()
-        for key,value in self.__map:
+        for key,value in self.__map.items():
             positions.append(key)
             if value == 'g':
-                golds += ('at',key,value)
+                golds += (('at',value,key[0],key[1]),)
             elif value == 'W':
-                monsters += ('at',key,value)
+                monsters += (('at',value,key[0],key[1]),)
             elif value == ' ':
-                frees += ('at',key,value)
+                frees += (('at',value,key[0],key[1]),)
             elif value == '#':
-                obstacles += ('at',key,value)
+                obstacles += (('at',value,key[0],key[1]),)
 
+        init = (
+                ('=',('bows',), 0),
+                ('at','hunter',self.__startX,self.__startY),
+                ('=',('gold',),0),
+            ) + obstacles + frees + golds
         print(self.__map)
         print(positions)
+        print('init = ',init)
         # tuto sa vytvara domena - tj. zmeny v pohybe
         domain = pyddl.Domain()
 
@@ -64,13 +70,10 @@ class world:
                 # 'monster': tuple('W'),
                 # 'obstacle': tuple('#'),
                 'spaces': (' ','W','#'),
-                'position': tuple(positions),
+                'positionX': tuple([i for i in range(self.__maxX+1)]),
+                'positionY': tuple([i for i in range(self.__maxY+1)])
             },
-            init= (
-                ('=',('bows',), 0),
-                ('at','hunter',(self.__startX,self.__startY)),
-                ('=',('gold',),0),
-            ) + obstacles + frees + golds,
+            init,
 
             goal= (
                 # ('=',('gold',),self.__totalGold),

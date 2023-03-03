@@ -28,119 +28,121 @@ class Domain(object):
             self.actions = tuple(
                 Action('move_left',
                        parameters=(
-                           ('position','(px,py)'),
-                           ('position','(bx,py)')),
+                           ('position','px'),
+                           ('position','py'),
+                           ('position','bx'),),
                        preconditions=(
-                           ('at','hunter','(px,py)'),
-                           neg(('at','wall','(bx,py)'))
+                           ('at','hunter','px','py'),
+                           neg(('at','wall','bx','py'),)
                        ),
                        effects=(
-                           neg(('at','hunter','(px,py)')),
-                           ('at','hunter','(bx,py)'))),
+                           neg(('at','hunter','px','py')),
+                           ('at','hunter','bx','py')),),
                 Action('move-right',
                        parameters=(
-                           ('position', '(px,py)'),
-                           ('position', '(bx,py)'),
+                           ('position','px'),
+                           ('position','py'),
+                           ('position','bx'),
 
                        ),
                        preconditions=(
-                           ('at', 'hunter', '(px,py)'),
-                           neg(('at', 'wall', '(bx,py)')),
+                           ('at', 'hunter','px','py'),
+                           neg(('at', 'wall','bx','py'),),
                        ),
                        effects=(
-                           neg(('at', 'hunter', '(px,py)')),
-                           ('at', 'hunter', '(bx,py)'),
+                           neg(('at', 'hunter','px','py')),
+                           ('at', 'hunter','bx','py'),
 
                        )),
                 Action('move-up',
                        parameters=(
-                           ('position', '(px,py)'),
-                           ('position', '(px,by)')
-
+                           ('position','px'),
+                           ('position','py'),
+                           ('position','by'),
                        ),
                        preconditions=(
-                           ('at', 'hunter', '(px,py)'),
+                           ('at', 'hunter', 'px','py'),
                            neg(('at', 'wall', '(px,by)')),
                        ),
                        effects=(
-                           neg(('at', 'hunter', '(px,py)')),
+                           neg(('at', 'hunter', 'px','py')),
                            ('at','hunter','(px,by)')
                        )),
                 Action('move-down',
                        parameters=(
-                           ('position', '(px,py)'),
+                           ('position', 'px','py'),
                            ('position', '(px,by)')),
                        preconditions=(
-                           ('at', 'hunter', '(px,py)'),
+                           ('at', 'hunter', 'px','py'),
                            neg(('at', 'hunter', '(px,by)')),
                        ),
                        effects=(
-                           neg(('at', 'hunter', '(px,py)')),
+                           neg(('at', 'hunter', 'px','py')),
                            ('at', 'hunter', '(px,by)')
                        )),
                 Action('take-gold',
                        parameters=(
-                           ('position','(px,py)')
+                           ('position','px','py')
                        ),
                        preconditions=(
-                           ('at','hunter','(px,py)'),
-                           ('at','gold','(px,py)'),
+                           ('at','hunter','px','py'),
+                           ('at','gold','px','py'),
                        ),
                        effects=(
-                           neg('at','gold','(px,py)'),
+                           neg('at','gold','px','py'),
                            ('+=',('gold',),1))),
                 Action('take-arrow',
                        parameters=(),
                        preconditions=(
-                           ('at', 'hunter', '(px,py)'),
-                           ('at', 'arrow', '(px,py)'),
+                           ('at', 'hunter', 'px','py'),
+                           ('at', 'arrow', 'px','py'),
 
                        ),
                        effects=(
-                           neg(('at', 'arrow', '(px,py)'))
+                           neg(('at', 'arrow', 'px','py'))
                            ('+=',('arrow',),1 ))),
                 Action('shoot-wumpus-right',
                        parameters=(
 
                        ),
                        preconditions=(
-                           ('at','hunter','(px,py)'),
-                           ('at','monster','(px,py)'),
+                           ('at','hunter','px','py'),
+                           ('at','monster','px','py'),
                            ('>', ('bows',), 0),
                        ),
                        effects=(
-                           neg(('at', 'monster', '(px,py)'))
+                           neg(('at', 'monster', 'px','py'))
                            ('-=', ('bows',), 1),
                        )),
                 Action('shoot-wumpus-left',
                        parameters=(),
                        preconditions=(
-                           ('at', 'hunter', '(px,py)'),
-                           ('at', 'monster', '(px,py)'),
+                           ('at', 'hunter', 'px','py'),
+                           ('at', 'monster', 'px','py'),
                            ('>', ('bows',), 0),
                        ),
                        effects=(
-                           neg(('at', 'monster', '(px,py)'))
+                           neg(('at', 'monster', 'px','py'))
                            ('-=', ('bows',), 1),
                        )),
                 Action('shoot-wumpus-up',
                        parameters=(),
-                       preconditions=(('at','hunter','(px,py)'),
-                           ('at','monster','(px,py)'),
+                       preconditions=(('at','hunter','px','py'),
+                           ('at','monster','px','py'),
                            ('>', ('bows',), 0),
                        ),
                        effects=(
-                           neg(('at','monster','(px,py)'))
+                           neg(('at','monster','px','py'))
                            ('-=',('bows',),1),
                        )),
                 Action('shoot-wumpus-down',
                        parameters=(),
-                       preconditions=(('at','hunter','(px,py)'),
-                           ('at','monster','(px,py)'),
+                       preconditions=(('at','hunter','px','py'),
+                           ('at','monster','px','py'),
                            ('>', ('bows',), 0),
                        ),
                        effects=(
-                           neg(('at','monster','(px,py)'))
+                           neg(('at','monster','px','py'))
                            ('-=', ('bows',), 1),
                        ))
 
