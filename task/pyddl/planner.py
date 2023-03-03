@@ -49,13 +49,13 @@ def planner(problem, heuristic=None, state0=None, goal=None,
         # Expand node if we haven't seen it before
         if node not in closed:
             closed.add(node)
-
             # Apply all applicable actions to get successors
+
             successors = set(node.apply(action, monotone)
                              for action in problem.grounded_actions
                              if node.is_true(action.preconditions,
                                              action.num_preconditions))
-
+            # print('successors = ',successors)
             # Compute heuristic and add to fringe
             for successor in successors:
                 if successor not in closed:
