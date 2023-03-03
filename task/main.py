@@ -34,24 +34,22 @@ class world:
 
     def getProblem(self):
 
-        goal = list()
 
-        positions = list()
         pos = tuple()
         frees = tuple()
-        for key,value in self.__map.items():
-            positions.append(key)
-            if value in ('g','W',' ','A'):
-                pos += (('at',value,key[0],key[1]),)
-                frees += (('at','free',key[0],key[1]),)
-        #
-        # print(self.__map)
-
         smallers = tuple()
+        xs,ys = tuple(),tuple()
+        for key,value in self.__map.items():
+            if value in ('g','W',' ','A','@'):
+                pos += (('at',value,key[0],key[1]),)
+                if value != 'W':
+                    frees += (('at','free',key[0],key[1]),)
+            else:
+                frees += (pyddl.neg(('at', 'free', key[0], key[1])),)
 
-        xs = tuple()
-        ys = tuple()
-        for coordinate in range(max(self.__maxX + 1,self.__maxY)):
+
+
+        for coordinate in range(max(self.__maxX + 1,self.__maxY+1)):
             if coordinate <= self.__maxX:
                 xs += (coordinate,)
             if coordinate <= self.__maxY:
@@ -61,13 +59,16 @@ class world:
 
         # xs =  tuple([i for i in range(self.__maxX + 1)])
         # ys = tuple([i for i in range(self.__maxY+1)])
-
+        print('xs = ',xs)
+        print('ys = ',ys)
         init = (
                    ('=', ('bows',), 0),
-                   ('at', 'hunter', self.__startX, self.__startY),
                    ('=', ('gold',), 0),
-               ) + pos + frees + smallers
+               )+ pos  + frees + smallers
         print('init = ',init)
+        print()
+        print()
+        print('frees',frees)
         # tuto sa vytvara domena - tj. zmeny v pohybe
         # frees = list(frees)
         # frees.remove(('at','free',self.__startX+1,self.__startY))
@@ -75,33 +76,33 @@ class world:
         # frees = tuple(frees)
 
         #tests,which should pass
-        goal1 = (('at','hunter',self.__startX+1,self.__startY),)
+        # goal1 = (('at','hunter',self.__startX+1,self.__startY),)
         # goal1 = (('at', 'hunter', self.__startX + 1, self.__startY+1),)
+        # goal1 = (('at', '@', self.__startX , self.__startY),('=', ('bows',), 1),)
+        # goal1 = (('at', 'hunter', self.__startX, self.__startY ),('=',('gold',), 1),)
+        # goal1 = (('=',('gold',), 1),)
+        # goal1 = (('=',('bows',), 1),)
         #tests, which shouldnt pass
         #goal1 = (('at', 'hunter', self.__startX - 1, self.__startY),)
         #goal1 = (('at', 'hunter', self.__startX , self.__startY-1),)
+        goal1 = (('at', '@', self.__startX , self.__startY + 2),('=', ('bows',), 1))
+        # goal1 = (('at', 'hunter', self.__startX , self.__startY),('=',('bows',), 1),)
+        # goal1 = (('at', 'hunter', self.__startX , self.__startY),
+        #     ('=', ('bows',), 1),)
 
-
+        goal1 = (('at', '@', self.__startX , self.__startY),
+             ('=', ('gold',), 3),)
 
         # goal = (
         #         ('=',('bows',), 0),
         #         ('at','hunter',self.__startX+1,self.__startY),
         #         ('=',('gold',), 0),
         #     ) + obstacles + frees + golds + not_walls
-        print()
-        print()
-        print('goal', goal)
         domain = pyddl.Domain()
-
         problem = pyddl.Problem(
             domain,
             {
-                # 'start': tuple(''),
-                # 'monster': tuple('W'),
-                # 'obstacle': tuple('#'),
-                # 'spaces': (' ','W','#'),
 
-                # 'free_spots': (' ','W','g','A'),
                 'positionX': xs,
                 'positionY': ys,
             },
@@ -109,9 +110,6 @@ class world:
             goal1
             ,
         )
-        print('xs', xs)
-        print('ys', ys)
-        print(smallers)
         return problem
 
 if __name__ == '__main__':

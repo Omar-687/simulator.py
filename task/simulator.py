@@ -91,26 +91,30 @@ class world:
         self.__printSimulatedMap()
 
     def simulate(self, action):
+        # print('action - ',action)
+        # print((self.__simX, self.__simY))
         if action == 'move-right':
             if (self.__simMap[(self.__simX+1, self.__simY)] != '#'):
                 self.__simX+=1
             else:
-                self.__error("Moved into wall!")
+                self.__error("Moved into wall! move-right")
         elif action == 'move-left':
             if (self.__simMap[(self.__simX-1, self.__simY)] != '#'):
+
                 self.__simX -= 1
             else:
-                self.__error("Moved into wall!")
+                print('ahhh')
+                self.__error("Moved into wall! move-left")
         elif action == 'move-up':
             if (self.__simMap[(self.__simX, self.__simY-1)] != '#'):
                 self.__simY -= 1
             else:
-                self.__error("Moved into wall!")
+                self.__error(f'Moved into wall! move-up {self.__simX},{self.__simY-1}')
         elif action == 'move-down':
             if (self.__simMap[(self.__simX, self.__simY+1)] != '#'):
                 self.__simY += 1
             else:
-                self.__error("Moved into wall!")
+                self.__error(f'Moved into wall! move-down {self.__simX},{self.__simY+1}')
         elif action == 'shoot-wumpus-right':
             if (self.__simMap[(self.__simX + 1, self.__simY)] == 'W'):
                 if (self.__arrows > 0):
@@ -151,7 +155,8 @@ class world:
             if (self.__simMap[(self.__simX, self.__simY)] == 'g'):
                 self.__simMap[(self.__simX, self.__simY)] = ' '
             else:
-                self.__error("There is no gold to take!")
+                print((self.__simX, self.__simY))
+                self.__error(f'There is no gold to take! {self.__simX},{self.__simY}')
         elif action == 'take-arrow':
             if (self.__simMap[(self.__simX, self.__simY)] == 'A'):
                 self.__simMap[(self.__simX, self.__simY)] = ' '
@@ -183,7 +188,7 @@ class world:
             print(pos(self.__simX + 1, self.__simY + 1) + colorama.Fore.CYAN + colorama.Back.YELLOW + '@' + colorama.Back.RESET + colorama.Fore.RESET)
         else:
             print(pos(self.__simX + 1, self.__simY + 1) + colorama.Fore.CYAN + '@' + colorama.Fore.RESET)
-        
+
     def __error(self, message):
         print(pos(1, self.__maxY + 2) + colorama.Fore.RED + "ERROR: " + message + colorama.Fore.RESET)
         self.__stopSim = True
@@ -222,7 +227,9 @@ def simulate(worldFile, actionsFile):
     w.loadActions(actionsFile)
     w.loadWorld(worldFile)
     w.simulateInit()
+
     for action in w.getActions():
+
         if w.isSimulationRunning():
             time.sleep(.1)
             w.simulate(action)

@@ -55,7 +55,6 @@ def planner(problem, heuristic=None, state0=None, goal=None,
                              for action in problem.grounded_actions
                              if node.is_true(action.preconditions,
                                              action.num_preconditions))
-            # print('successors = ',successors)
             # Compute heuristic and add to fringe
             for successor in successors:
                 if successor not in closed:
