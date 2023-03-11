@@ -41,7 +41,7 @@ class Point:
 def create_obal(width,height):
     ...
 
-def is_inside(x1,x2,y1,y2,r):
+def is_inside(x1,x2,y1,y2,r,z1=0,z2=0):
     return math.sqrt((x1-x2)**2 + (y1-y2)**2) <= r
 
 
@@ -50,13 +50,19 @@ def cubic_to_milimeter(cubic_meter):
     return cubic_meter * 1000000
 
 
+def volume_of_obal():
+    return 150*80*80
+def calc():
+    return 7.2885 * 10**5
+    # return math.pi * (40)**2 a z toho integral od 0 do 145
 def simulate_ex():
     f = 10
     total_width = 5 + 35 + 10 + 20 + 20 + 10 + 10 + 35
     total_height = 80
     N = 10
-    samples = 1000
+    samples = 10000
     ps = []
+    priemer = 0
     for i in range(N):
         inside_object = 0
         inside_all = 0
@@ -65,11 +71,8 @@ def simulate_ex():
 
             x = random.uniform(0,total_width)
             y = random.uniform(-total_height/2,total_height/2)
-            # obal = Cuboid(total_width,total_height,Point(0,40,0))
-        #     rotation is sin(90) to sin(-90)
-        #     nic sa nezmeni math.sin(90)*math.cos(90)
-        #         sin(0) = 0 cos(0) = 1
-            if is_inside(x,x,0,y,total_height):
+
+            if is_inside(x,x,0,y,total_height/2):
                 inside_all += 1
 
             if x >= 0 and x <= 5:
@@ -81,11 +84,6 @@ def simulate_ex():
                 # od sin(90) a cos(90) do sin(-90)
 
                 r = 20
-                # angle = 45
-                # new_point = (math.cos(angle),math.sin(angle))
-                # x = r*math.cos(angle)
-                # y = r*math.sin(angle)
-                # if math.sqrt((5-x) **2 + y**2) <= 20:
                 if is_inside(x,x,0,y,r):
                     inside_object += 1
             if x >= 40 and x <= 50:
@@ -117,11 +115,16 @@ def simulate_ex():
                 r = 25 - (x - 140)
                 if is_inside(x,x,0,y,r):
                     inside_object += 1
+        ps.append((inside_object/inside_all))
 
-            ps.append(cubic_to_milimeter(inside_object/inside_all))
 
+    for p in ps:
+        priemer += p
+    priemer /= len(ps)
+    print('ps = ', ps)
+    print('priemer ps = ', priemer)
 
-    print('ps = ',ps)
+    return priemer * calc()
 
 def dist(stred,r,point):
     return math.sqrt((stred[0] - point[0])**2 + (stred[1] - point[1])**2) <= r
@@ -157,5 +160,5 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     simulate_ex()
-
+    # simulation()
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
